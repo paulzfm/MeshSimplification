@@ -37,14 +37,18 @@ void Object::dump(const std::string& file)
 
     int i = 0;
     for (const auto& v : vertices) {
-        parser.m_pVertexList[i] = SimpleOBJ::Vec3f(v.pos.x, v.pos.y, v.pos.z);
-        ++i;
+        if (!v.removed) {
+            parser.m_pVertexList[i] = SimpleOBJ::Vec3f(v.pos.x, v.pos.y, v.pos.z);
+            ++i;
+        }
     }
 
     i = 0;
     for (const auto& p : planes) {
-        parser.m_pTriangleList[i] = SimpleOBJ::Array<int, 3>(p.a, p.b, p.c);
-        ++i;
+        if (!p.removed) {
+            parser.m_pTriangleList[i] = SimpleOBJ::Array<int, 3>(p.a, p.b, p.c);
+            ++i;
+        }
     }
 
     parser.SaveToObj(file.c_str());
@@ -88,6 +92,24 @@ void Object::updateVertexNeighbors()
 
 void Object::rebuild()
 {
+    for (auto& v : vertices) {
+        if (!v.removed) {
+            std::vector<int> __vertices = v.vertices;
+            v.vertices.clear();
+            for (const auto& e : __vertices) {
+                if (!vertices[e].removed) {
+                    v.vertices.push_back(e);
+                }
+            }
 
+            std::vector<int> __planes = v.planes;
+            v.planes.clear();
+            for (const auto& e : __planes) {
+                if (!planes[e].removed) {
+                    v.planes.push_back(e);
+                }
+            }
+        }
+    }
 }
 
