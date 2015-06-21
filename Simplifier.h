@@ -11,17 +11,16 @@ struct Pair
 {
     int i, j; // indexes of vertices
     double delta; // cost of merge
-    Vector mid; // middle point
+    Vector mid; // middle point or optimal point
 
     bool removed; // removed?
     int time; // latest update time
 
     Pair() {}
 
-    Pair(int i, int j, const Vertex& a, const Vertex& b)
+    Pair(int i, int j, const Vertex& a, const Vertex& b, bool middle)
         : i(i), j(j), removed(false), delta(0.0)
     {
-        mid = (a.pos + b.pos) / 2;
         time = a.time + b.time;
         
         Matrix Q = a.Q + b.Q;
@@ -30,6 +29,19 @@ struct Pair
             for (int j = 0; j < 4; ++j) {
                 delta += Q.x[i][j] * tmp[i] * tmp[j];
             }
+        }
+
+        if (middle) {
+            mid = (a.pos + b.pos) / 2;
+        } else {
+            Matrix Q1 = Q;
+            Q1.x[3][0] = 0;
+            Q1.x[3][1] = 0;
+            Q1.x[3][2] = 0;
+            Q1.x[3][3] = 1;
+            Q1.inverse();
+            mid = Vector(Q1.x[0][3], Q1.x[1][3], Q1.x[2][3]);
+            // std::cout << mid << " of " << a.pos << " and " << b.pos << std::endl;
         }
     }
 
@@ -42,7 +54,7 @@ struct Pair
 class Simplifier
 {
 public:
-    Simplifier(const std::string& input, const float percentage);
+    Simplifier(const std::string& input, const float percentage, bool middle);
 
     // just call this to run mesh simplification
     void simplify();
@@ -55,6 +67,7 @@ private:
     int _target; // number of planes
     int _current_time; // current time
     std::priority_queue<Pair> _queue; // pairs
+    bool _middle; // use middle point?
 
     void computeQMatrix();
     void buildQueue();

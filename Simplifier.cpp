@@ -1,12 +1,14 @@
 #include "Simplifier.h"
 
-Simplifier::Simplifier(const std::string& input, const float percentage)
+Simplifier::Simplifier(const std::string& input, const float percentage, bool middle)
 {
     std::cout << "### Loading " << input <<  "...\n";
     _obj.load(input);
     _target = int(_obj.planes.size() * percentage);
     std::cout << "### Target planes: " << _target 
               << " (" << 100 * (float)_target / _obj.planes.size() << "%)"<<  "\n";
+
+    _middle = false;
 }
 
 void Simplifier::output(const std::string& output)
@@ -83,7 +85,7 @@ void Simplifier::buildQueue()
     for (int i = 0; i < n; ++i) {
         for (int k = 0; k < _obj.vertices[i].vertices.size(); ++k) {
             int j = _obj.vertices[i].vertices[k];
-            _queue.push(Pair(i, j, _obj.vertices[i], _obj.vertices[j]));
+            _queue.push(Pair(i, j, _obj.vertices[i], _obj.vertices[j], _middle));
         }
     }
 }
@@ -161,7 +163,7 @@ void Simplifier::updateQueue(int i)
     _obj.vertices[i].time = _current_time;
     for (const auto& v : _obj.vertices[i].vertices) {
         if (!_obj.vertices[v].removed) {
-            _queue.push(Pair(i, v, _obj.vertices[i], _obj.vertices[v]));
+            _queue.push(Pair(i, v, _obj.vertices[i], _obj.vertices[v], _middle));
         }
     }
 }
