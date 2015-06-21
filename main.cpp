@@ -13,7 +13,7 @@ int main(int argc, char** argv)
     }
 
     bool middle = false;
-    if (argc == 5 && strcmp(argv[4], "-mid")) {
+    if (argc == 5 && strcmp(argv[4], "-mid") == 0) {
         middle = true;
     }
     Simplifier simplifier(std::string(argv[1]), atof(argv[3]), middle);
