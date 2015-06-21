@@ -5,6 +5,7 @@
 #include "util/Matrix.h"
 
 #include <vector>
+#include <iostream>
 
 struct Vertex
 {
@@ -19,6 +20,8 @@ struct Vertex
 
     Vertex(double x, double y, double z)
         : pos(Vector(x, y, z)), removed(false) {}
+
+    friend std::ostream& operator << (std::ostream& os, const Vertex& v);
 };
 
 struct Plane
@@ -39,10 +42,15 @@ struct Plane
         if (b == i) b = j;
         if (c == i) c = j;
     }
+
+    friend std::ostream& operator << (std::ostream& os, const Plane& p);
 };
 
 struct Object
 {
+    Object()
+        : n_vertices(0), n_planes(0) {}
+
     // obj file I/O
     void load(const std::string& file);
     void dump(const std::string& file);
@@ -61,6 +69,9 @@ struct Object
     // counters
     int n_vertices;
     int n_planes;
+
+    // debug
+    void print();
 };
 
 #endif // OBJECT_H_

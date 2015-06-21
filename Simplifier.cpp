@@ -1,24 +1,35 @@
 #include "Simplifier.h"
 
-#include <math.h>
-
 Simplifier::Simplifier(const std::string& input, const float percentage)
 {
+    std::cout << "### Loading " << input <<  "...\n";
     _obj.load(input);
-    _target = ceil(_obj.planes.size() * percentage);
+    _target = int(_obj.planes.size() * percentage);
+    std::cout << "### Target planes: " << _target 
+              << " (" << 100 * (float)_target / _obj.planes.size() << "%)"<<  "\n";
 }
 
 void Simplifier::output(const std::string& output)
 {
+    std::cout << "### Saving " << output <<  "...\n";
     _obj.dump(output);
+
+    // try load this file again to validate any errors
+    std::cout << "### Validating " << output <<  "...\n";
+    _obj.load(output);
+    std::cout << "### Done\n";
 }
 
 void Simplifier::simplify()
 {
+    std::cout << "### Simplifing...\n";
+
     computeQMatrix();
     buildQueue();
 
     _current_time = 0;
+
+    // _obj.print();
 
     while (_obj.n_planes > _target) {
         Pair pair;
@@ -33,8 +44,11 @@ void Simplifier::simplify()
         int j = pair.j;
         _obj.vertices[i].pos = _obj.vertices[j].pos = pair.mid;
 
+        // printf("Pair: %d, %d\n", i, j);
+
         removePlanes(i, j);
         updateEdges(i, j);
+        updatePlanes(i);
         updateQMatrix(i);
         for (const auto& v : _obj.vertices[i].vertices) {
             updateQMatrix(v);
@@ -43,6 +57,8 @@ void Simplifier::simplify()
         for (const auto& v : _obj.vertices[i].vertices) {
             updateQueue(v);
         }
+
+        // _obj.print();
 
         ++_current_time;
         if (_current_time % 1000 == 0) { // hard remove
@@ -134,7 +150,9 @@ void Simplifier::updateQMatrix(int i)
 
     // update Q(i)
     for (const auto& p : _obj.vertices[i].planes) {
-        _obj.vertices[i].Q += _obj.planes[p].K;
+        if (!_obj.planes[p].removed) {
+            _obj.vertices[i].Q += _obj.planes[p].K;
+        }
     }
 }
 

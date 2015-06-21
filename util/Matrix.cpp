@@ -1,7 +1,26 @@
 #include "Matrix.h"
+
 #include <iomanip>
 
+Matrix::Matrix()
+{
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            x[i][j] = 0.0;
+        }
+    }
+}
+
 Matrix::Matrix(const Matrix& mat)
+{
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            x[i][j] = mat.x[i][j];
+        }
+    }
+}
+
+void Matrix::operator = (const Matrix& mat)
 {
     for (int i = 0; i < 4; i++) {
         for (int j = 0; j < 4; j++) {

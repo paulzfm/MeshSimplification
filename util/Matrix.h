@@ -9,8 +9,9 @@
 class Matrix
 {
 public:
-    Matrix() {}
+    Matrix();
     Matrix(const Matrix& mat);
+    void operator = (const Matrix& mat);
 
     void operator += (const Matrix& that);
 

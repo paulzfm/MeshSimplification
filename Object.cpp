@@ -27,6 +27,20 @@ void Object::load(const std::string& file)
 
 void Object::dump(const std::string& file)
 {
+    // reorder vertices
+    int n = vertices.size();
+    std::unique_ptr<int[]> order(new int[n]);
+
+    int cnt = 0;
+    for (int i = 0; i < n; ++i) {
+        if (vertices[i].removed) {
+            order[i] = -1;
+        } else {
+            order[i] = cnt++;
+        }
+    }
+
+    // create a new parser
     SimpleOBJ::CSimpleObject parser;
 
     parser.m_nVertices = n_vertices;
@@ -35,6 +49,7 @@ void Object::dump(const std::string& file)
     parser.m_nTriangles = n_planes;
     parser.m_pTriangleList = new SimpleOBJ::Array<int, 3>[n_planes];
 
+    // write data
     int i = 0;
     for (const auto& v : vertices) {
         if (!v.removed) {
@@ -46,11 +61,12 @@ void Object::dump(const std::string& file)
     i = 0;
     for (const auto& p : planes) {
         if (!p.removed) {
-            parser.m_pTriangleList[i] = SimpleOBJ::Array<int, 3>(p.a, p.b, p.c);
+            parser.m_pTriangleList[i] = SimpleOBJ::Array<int, 3>(order[p.a], order[p.b], order[p.c]);
             ++i;
         }
     }
 
+    // save
     parser.SaveToObj(file.c_str());
 }
 
@@ -110,6 +126,61 @@ void Object::rebuild()
                 }
             }
         }
+    }
+}
+
+std::ostream& operator << (std::ostream& os, const Vertex& v)
+{
+    os << v.pos << " [" << v.time << "]";
+    if (v.removed) {
+        os << " [removed] ";
+    }
+    os << "\n" << v.Q;
+    os << "vertices: ";
+    for (const auto& e : v.vertices) {
+        os << e << " ";
+    }
+    os << "\nplanes: ";
+    for (const auto& e : v.planes) {
+        os << e << " ";
+    }
+    os << "\n";
+
+    return os;
+}
+
+std::ostream& operator << (std::ostream& os, const Plane& p)
+{
+    os << "(" << p.a << ", " << p.b << ", " << p.c << ") "
+       << p.args[0] << "x+" << p.args[1] << "y+" << p.args[2] << "z+" << p.args[3] << "=0"
+       << " [" << p.time << "]";
+    if (p.removed) {
+        os << " [removed] ";
+    }
+    os << "\n" << p.K;
+
+    return os;
+}
+
+
+void Object::print()
+{
+    rebuild();
+
+    printf("%d vertices:\n", n_vertices);
+    int i = 0;
+    for (const auto& v : vertices) {
+        printf("# v%d\n", i);
+        std::cout << v;
+        ++i;
+    }
+
+    printf("%d planes:\n", n_planes);
+    i = 0;
+    for (const auto& p : planes) {
+        printf("# f%d\n", i);
+        std::cout << p;
+        ++i;
     }
 }
 
