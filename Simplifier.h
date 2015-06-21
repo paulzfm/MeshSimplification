@@ -80,7 +80,7 @@ private:
 
 // helper function
 template <typename T>
-inline bool has(const T& e, std::vector<T> v)
+inline bool has(const T& e, const std::vector<T>& v)
 {
     return std::find(v.begin(), v.end(), e) != v.end();
 }
