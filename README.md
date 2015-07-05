@@ -33,5 +33,3 @@ The `-mid` option means you want to use the middle point as estimatation(say the
 - When estimate the new vertex v from two original vertices v1 and v2, we can use linear optimizing for better estimate.
 
 - Using priorty queue to manage pairs to ensure low time complexity.
-
-- Combining ``soft delete'' and ``hard delete'' to avoid high-cost operations when removing vertices and planes.
