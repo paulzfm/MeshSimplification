@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99991 (TeX Live 2014) (preloaded format=xelatex 2015.1.25)  6 JUL 2015 01:33
+This is XeTeX, Version 3.14159265-2.6-0.99991 (TeX Live 2014) (preloaded format=xelatex 2015.1.25)  6 JUL 2015 18:40
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1218,7 +1218,7 @@ File: ulasy.fd 1998/08/17 v2.2e LaTeX symbol font definitions
 * 
 * Try to use `\setCJKmonofont[...]{...}' to define it.
 *************************************************
-LaTeX Font Info:    Try loading font information for EU1+lmtt on input line 67.
+LaTeX Font Info:    Try loading font information for EU1+lmtt on input line 70.
 
 (/usr/local/texlive/2014/texmf-dist/tex/latex/euenc/eu1lmtt.fd
 File: eu1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
@@ -1232,23 +1232,33 @@ File: ../output/buddha0.05.png Graphic file (type QTm)
  <use  "../output/buddha0.05.png" >
 File: ../output/buddha0.01.png Graphic file (type QTm)
 
-<use  "../output/buddha0.01.png" >
+<use  "../output/buddha0.01.png" > [2]
 File: ../output/buddham.png Graphic file (type QTm)
- <use  "../output/buddham.png" > [2]
-Overfull \hbox (10.4699pt too wide) in paragraph at lines 93--94
+ <use  "../output/buddham.png" >
+File: ../output/dragon0.1.png Graphic file (type QTm)
+
+<use  "../output/dragon0.1.png" > [3]
+File: ../output/dragon0.05.png Graphic file (type QTm)
+ <use  "../output/dragon0.05.png" >
+File: ../output/dragon0.01.png Graphic file (type QTm)
+
+<use  "../output/dragon0.01.png" > [4]
+File: ../output/shot.png Graphic file (type QTm)
+ <use  "../output/shot.png" >
+Overfull \hbox (10.4699pt too wide) in paragraph at lines 122--123
 []\EU1/SimSun(0)/m/n/10.95 请 前 往$[][][][][] [] [] [] [][][][][][] [] [][][] [] 
 [][][][][][][] [] [][][][][][][][][][][][][][][][][][] [] [][][][][][][][][][][
 ][][][][][][][][][]$
  []
 
-[3] (./report.aux) ) 
+[5] (./report.aux) ) 
 Here is how much of TeX's memory you used:
- 20552 strings out of 493734
- 407745 string characters out of 6146348
- 443853 words of memory out of 5000000
- 23696 multiletter control sequences out of 15000+600000
- 10473 words of font info for 69 fonts, out of 8000000 for 9000
+ 20567 strings out of 493734
+ 407956 string characters out of 6146348
+ 444885 words of memory out of 5000000
+ 23705 multiletter control sequences out of 15000+600000
+ 10481 words of font info for 70 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
  52i,6n,56p,10423b,359s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on report.pdf (3 pages).
+Output written on report.pdf (5 pages).

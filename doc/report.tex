@@ -59,10 +59,13 @@
 
 \begin{itemize}
     \item 保持拓扑结构的简化；
-    \item 支持两种收缩点的选择：(1) 中点；(2) 线性优化。
+    \item 支持两种收缩点的选择：(1) 中点；(2) 线性优化；
+    \item 利用优先队列加速，确保对数级别的时间复杂度。
 \end{itemize}
 
 \section{效果分析}
+
+\subsection{Buddha}
 
 \fref{s1}-\fref{s3}是对\texttt{Buddha.obj}模型采取不同简化比得到的结果（收缩点采用线性优化），可以看出其拓扑结构保持完整，但某些细节会随着简化比减小而减少。
 
@@ -86,6 +89,32 @@
 \begin{center}
     \includegraphics[width=4cm]{../output/buddham.png}
     \fcaption{利用中点作为收缩点，简化比0.01}\label{mid}
+\end{center}
+
+\subsection{Dragon}
+
+最后，我们对测例中最复杂的龙模型 (\texttt{fixed.perfect.dragon.100K.0.07.obj}) 采取不同简化比得到如\fref{d1}-\fref{d3}所示的图形（收缩点采用线性优化），可见其拓扑结构完好。
+
+\begin{center}
+    \includegraphics[width=8cm]{../output/dragon0.1.png}
+    \fcaption{简化比0.1}\label{d1}
+\end{center}
+
+\begin{center}
+    \includegraphics[width=8cm]{../output/dragon0.05.png}
+    \fcaption{简化比0.05}\label{d2}
+\end{center}
+
+\begin{center}
+    \includegraphics[width=8cm]{../output/dragon0.01.png}
+    \fcaption{简化比0.01}\label{d3}
+\end{center}
+
+由于这个模型文件的特殊性，我们预先对各点坐标扩大了1000倍。对扩大后的模型进行简化，只需不到10s的时间（其中包括了文件读写和验证的时间）即可运行出正确的结果，截图如\fref{shot}所示。
+
+\begin{center}
+    \includegraphics[width=14cm]{../output/shot.png}
+    \fcaption{运行截图}\label{shot}
 \end{center}
 
 \section{用法}

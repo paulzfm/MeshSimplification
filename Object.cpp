@@ -10,6 +10,7 @@ void Object::load(const std::string& file)
     for (int i = 0; i < parser.m_nVertices; ++i) {
         SimpleOBJ::Vec3f v = parser.m_pVertexList[i];
         vertices.push_back(Vertex(v[0], v[1], v[2]));
+        // vertices.push_back(Vertex(v[0] * 1000, v[1] * 1000, v[2] * 1000)); // for dragon
     }
     n_vertices = vertices.size();
 
